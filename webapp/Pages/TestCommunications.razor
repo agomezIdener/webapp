@@ -1,0 +1,52 @@
+﻿@using API;
+@page "/testCommunications"
+@inject BackendService backendService
+
+<PageTitle>Test backend communications</PageTitle>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h1>Test backend communications</h1>
+
+        <p>@result</p>
+
+        <button class="btn btn-primary" @onclick="async () => await CallService1()">Call Service 1</button>
+        <button class="btn btn-primary" @onclick="async () => await CallService2()">Call Service 2</button>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Please login as Admin</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    private string userName = "";
+    private string result = "";
+
+    private async Task CallService1()
+    {
+        try
+        {
+            var response = await backendService.CallService1();
+            result = $"Service 1 Response: {response}";
+        }
+        catch (Exception ex)
+        {
+            result = $"Error calling service 1: {ex.Message}";
+        }
+    }
+
+    private async Task CallService2()
+    {
+        try
+        {
+            var response = await backendService.CallService2();
+            result = $"Service 2 Response: {response}";
+        }
+        catch (Exception ex)
+        {
+            result = $"Error calling service 2: {ex.Message}";
+        }
+    }
+}
+

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using webapp.API;
 using webapp.Areas.Identity;
 using webapp.Data;
 
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTIONSTRING");
-if (connectionString == null) connectionString = "Host=127.0.0.1;Port=5438;Database=yourdatabase;Username=yourusername;Password=yourpassword";
+if (connectionString == null) connectionString = "Host=127.0.0.1;Port=5440;Database=yourdatabase;Username=yourusername;Password=yourpassword";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     {
@@ -32,6 +33,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<BackendService>();
+builder.Services.AddHttpClient();
+
+
 
 var app = builder.Build();
 

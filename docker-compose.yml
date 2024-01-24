@@ -7,17 +7,24 @@ services:
       dockerfile: webapp/Dockerfile
     env_file:
         - .env
-    ports:
-        - "5438:5432"
+    networks:
+      - example_platform
   db:
     image: postgres
     restart: always
-    network_mode: service:webapp
     environment:
         POSTGRES_USER: yourusername
         POSTGRES_PASSWORD: yourpassword
         POSTGRES_DB: yourdatabase
     volumes:
-        - webapp_db_data:/var/lib/postgresql/data
+        - example_db_data:/var/lib/postgresql/data
+    networks:
+      - example_platform
+    ports:
+      - "5440:5432"
 volumes:
-  webapp_db_data: 
+  example_db_data: 
+
+networks:
+  example_platform:
+    external: true
